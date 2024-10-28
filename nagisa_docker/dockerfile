@@ -1,5 +1,5 @@
-# 使用 Pachyderm 的 OpenCV 2.6.0 作为基础镜像
-FROM pachyderm/opencv:2.6.0
+# 使用 From osrf/ros:humble-desktop-full作为基础镜像
+FROM osrf/ros:humble-desktop-full
 
 # 定义用户和用户组
 ARG USERNAME=nagisa
@@ -9,7 +9,6 @@ ARG USER_GID=$USER_UID
 # 更新包列表并安装必要软件
 RUN apt-get update \
     && apt-get install -y net-tools nautilus bash-completion gdb sudo
-
 # 创建用户组和用户
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
@@ -31,6 +30,7 @@ WORKDIR /home/$USERNAME/opencv
 USER root
 
 # 安装 GitKraken
+COPY ./1.webp /home/nagisa/opencv/1.webp
 COPY ./packages/gitkraken-amd64.deb /home/nagisa/opencv/packages/gitkraken-amd64.deb
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y ./packages/gitkraken-amd64.deb
 
